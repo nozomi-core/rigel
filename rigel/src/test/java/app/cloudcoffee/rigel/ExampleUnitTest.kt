@@ -1,4 +1,4 @@
-package app.cloudcoffee.mylibrary
+package app.cloudcoffee.rigel
 
 import org.junit.Test
 
