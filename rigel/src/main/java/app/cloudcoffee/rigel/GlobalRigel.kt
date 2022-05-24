@@ -35,11 +35,12 @@ fun <Result> exam( block: suspend () -> Result): Result {
         block()
     }
 }
-fun <Result, Injector> examWith(inject: Injector, block: suspend (context: Injector) -> Result): Result {
+fun <Injector, Result> examWith(inject: Injector, block: suspend (context: Injector) -> Result): Result {
     return rigelExamBlock {
         val signal = SignalAwaiter<Result>(NoTimeoutSignalStrategy())
         GlobalScope.launch(Dispatchers.Main) {
             val result = block(inject)
+            //delay(10) //TODO: without this exam will hang on empty
             signal.postResult(result)
         }
         signal.waitfor()
@@ -52,7 +53,7 @@ fun <Result> examAsync(block: suspend (signalCall: SignalAwaiter<Result>) -> Uni
     }
 }
 
-fun <Result, Injector> examAsyncWith(inject: Injector, block: suspend (context: Injector, signalCall: SignalAwaiter<Result>) -> Unit): Result {
+fun <Injector, Result> examAsyncWith(inject: Injector, block: suspend (context: Injector, signalCall: SignalAwaiter<Result>) -> Unit): Result {
     return rigelExamBlock() {
         val signal =
             SignalAwaiter<Result>(NoTimeoutSignalStrategy())
@@ -70,7 +71,7 @@ fun <Result> examAsyncTimeout(minutes: Int, block: suspend (signalCall: SignalAw
     }
 }
 
-fun <Result, Injector> examAsyncTimeoutWith(inject: Injector, minutes: Int, block: suspend (context: Injector, signalCall: SignalAwaiter<Result>) -> Unit): Result {
+fun <Injector, Result> examAsyncTimeoutWith(inject: Injector, minutes: Int, block: suspend (context: Injector, signalCall: SignalAwaiter<Result>) -> Unit): Result {
     return rigelExamBlock {
         val signal = SignalAwaiter<Result>(MinuteTimeoutSignalStrategy(minutes))
         GlobalScope.launch(Dispatchers.Main) {

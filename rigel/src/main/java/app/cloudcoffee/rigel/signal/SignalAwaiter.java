@@ -11,6 +11,8 @@ public class SignalAwaiter<T> implements AwaitSignal<T> {
     }
 
     public T waitForResult() throws Exception {
+        if(result != null)
+            return result;
         signalStrategy.stopSignal();
 
         if(result == null) {

@@ -16,7 +16,7 @@ class SignalAwaiterTest {
         val noTimeout = SignalAwaiter<Int>(NoTimeoutSignalStrategy())
         GlobalScope.launch {
             //delay for 10min
-            delay(60 * 1000 * 10)
+            delay(60 * 1000 * 2)
             noTimeout.postResult(11)
         }
         val eleven = noTimeout.waitForResult()
