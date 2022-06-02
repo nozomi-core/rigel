@@ -11,7 +11,7 @@ class ExampleInject(val injectionName: String) {
 }
 
 @RunWith(JUnit4::class)
-class GlobalRigelTest {
+class GlobaRigelTest {
 
     @Test
     fun testExam() {
@@ -57,15 +57,26 @@ class GlobalRigelTest {
 
     @Test
     fun testExamAsyncTimeout() {
-        testFail {
-            examAsyncTimeout(1){
+        testFail { examAsyncTimeout(1){ } }
 
-            }
+        val result = examAsyncTimeout<Int>(1) {
+            it.postSuccess(12)
         }
+        assertEquals(12, result)
     }
 
     @Test
     fun testExamAsyncTimeoutWith() {
+        testFail {
+            examAsyncTimeoutWith("hello", 1) { context, signal ->
+                assertEquals(context, "hello")
+            }
+        }
+        val result = examAsyncTimeoutWith<String, String>("work", 1) { context, signal ->
+            assertEquals(context, "work")
+            signal.postSuccess("")
+        }
+        assertEquals("", result)
 
     }
 }

@@ -16,7 +16,7 @@ interface ResultAwaiter<T> {
 }
 
 class ActualSignal<T>: AwaitSignal<T>, ResultAwaiter<T> {
-    val completableFuture = CompletableFuture<T>()
+    private val completableFuture = CompletableFuture<T>()
 
     override fun postSuccess(result: T) {
         completableFuture.complete(result)
