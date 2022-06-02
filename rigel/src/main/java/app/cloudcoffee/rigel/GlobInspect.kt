@@ -1,6 +1,6 @@
 package app.cloudcoffee.rigel
 
-fun <T> inspect(valueToCheck: T?, checkCallback: RigelValueInspection<T>.() -> Unit) {
+fun <T> inspect(valueToCheck: T?, checkCallback: ValueInspection<T>.() -> Unit) {
     return checkCallback(RigelInspection(JUnitRigelAssert(), valueToCheck))
 }
 
