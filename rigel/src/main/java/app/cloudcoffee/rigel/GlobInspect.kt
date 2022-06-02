@@ -7,7 +7,3 @@ fun <T> inspect(valueToCheck: T?, checkCallback: RigelValueInspection<T>.() -> U
 fun <T> inspectList(iterable: Iterable<T>, listCallback: RigelListInspection<T>.() -> Unit) {
     return listCallback(JUnitRigelListInspection(iterable))
 }
-
-fun assumeExists(vararg items : Any?) {
-
-}

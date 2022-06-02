@@ -25,7 +25,7 @@ class GlobalRigelTest {
 
         val asyncResult = examAsync<String> { signal ->
             delay(1000)
-            signal.postResult("hello")
+            signal.postSuccess("hello")
         }
         assertEquals("hello", asyncResult)
     }
@@ -43,7 +43,7 @@ class GlobalRigelTest {
         val asyncResult = examAsyncWith<ExampleInject, String >(myInject) { context, signal ->
             delay(1000)
             assertEquals(context.injectionName, "my-inject")
-            signal.postResult("async-done")
+            signal.postSuccess("async-done")
         }
         assertEquals("async-done", asyncResult)
     }
@@ -56,19 +56,16 @@ class GlobalRigelTest {
     }
 
     @Test
-    fun testExamAsynTimeout() {
+    fun testExamAsyncTimeout() {
         testFail {
-            examAsyncTimeout<Int>(1) {
+            examAsyncTimeout(1){
+
             }
         }
     }
 
     @Test
     fun testExamAsyncTimeoutWith() {
-        testFail {
-            examAsyncTimeoutWith<String, Int>("heya",1){ context, signal ->
 
-            }
-        }
     }
 }
