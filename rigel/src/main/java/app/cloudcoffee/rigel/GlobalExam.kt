@@ -32,6 +32,10 @@ fun <Injector, Result> examWith(inject: Injector, block: suspend (context: Injec
     }
 }
 
+/**
+ *  Async blocking calls. Uses a signal to post result back to main thread
+ */
+
 private fun  <Inject, Result> rigelBlockAsync(inject: Inject, secondsTimeout: Long, signal: ActualSignal<Result>, block: suspend (inject: Inject) -> Unit, ): Result {
     GlobalScope.launch(Dispatchers.Main) {
         block(inject)
