@@ -2,6 +2,9 @@ package app.cloudcoffee.rigelapp
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
+import app.cloudcoffee.rigel.exam
+import app.cloudcoffee.rigel.report
+import kotlinx.coroutines.delay
 
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -15,10 +18,19 @@ import org.junit.Assert.*
  */
 @RunWith(AndroidJUnit4::class)
 class ExampleInstrumentedTest {
+
+    suspend fun delayApi(msg: String): String {
+        delay(5000)
+        return "$msg-done"
+    }
+
     @Test
     fun useAppContext() {
-        // Context of the app under test.
-        val appContext = InstrumentationRegistry.getInstrumentation().targetContext
-        assertEquals("app.cloudcoffee.rigelapp", appContext.packageName)
+        val resp = exam {
+            val p1 = delayApi("hey")
+            val p2 = delayApi("popcorn")
+            listOf(p1,p2)
+        }
+        report(resp)
     }
 }
